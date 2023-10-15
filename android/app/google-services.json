@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "520960204746",
+    "project_id": "nizwaapp-f2511",
+    "storage_bucket": "nizwaapp-f2511.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520960204746:android:17a0ede7d6a774de36b933",
+        "android_client_info": {
+          "package_name": "com.example.nizwa_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo78ZMYzUUg57froqJ4_GrE7WDSyLfuNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
