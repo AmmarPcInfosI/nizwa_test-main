@@ -7,7 +7,7 @@ import 'package:nizwa_test/screens/more_screen.dart';
 import 'package:nizwa_test/screens/search_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+   const MainScreen({Key? key}) : super(key: key);
   
 
   @override
@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   late int currentPage;
   late TabController tabController;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static  List<Widget> _widgetOptions = <Widget>[
     MoreScreen(),
     BookingScreen(),
     Text(

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -139,7 +138,7 @@ class _BookingScreenState extends State<BookingScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               height: MediaQuery.of(context).size.height * 0.055,
               width: MediaQuery.of(context).size.width * 243 / 390,
               alignment: Alignment.center,
@@ -197,7 +196,7 @@ class _BookingScreenState extends State<BookingScreen> {
                       'عرض الكل',
                       textAlign: TextAlign.right,
                       style: GoogleFonts.notoSansArabic(
-                        color: Color(0xB289875B),
+                        color: const Color(0xB289875B),
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         height: 1,
@@ -214,7 +213,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   return Container(
                     width: MediaQuery.of(context).size.width * 365 / 390,
                     height: MediaQuery.of(context).size.height * 193 / 844,
-                    margin: EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(currentEventList[index].Media!),
