@@ -8,22 +8,17 @@ import 'package:nizwa_test/screens/search_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
-  
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>
-    with SingleTickerProviderStateMixin {
+class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
   late int currentPage;
   late TabController tabController;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     MoreScreen(),
     BookingScreen(),
-    Text(
-      'Index 2: School',
-    ),
     SearchScreen(),
     HomeScreen(),
   ];
@@ -31,8 +26,8 @@ class _MainScreenState extends State<MainScreen>
   @override
   void initState() {
     super.initState();
-    currentPage = 4; 
-    tabController = TabController(length: 5, vsync: this, initialIndex: 4); 
+    currentPage = 3; // Set the initial page index to the last page.
+    tabController = TabController(length: 4, vsync: this, initialIndex: 3);
     tabController.animation?.addListener(() {
       final value = tabController.animation!.value.round();
       if (value != currentPage && mounted) {
@@ -57,19 +52,13 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
         body: BottomBar(
           clip: Clip.none,
           fit: StackFit.expand,
           icon: (width, height) => Center(
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: null,
-              icon: Icon(
-                Icons.arrow_upward_rounded,
-                color: Colors.white, 
-                size: width,
-              ),
+            child: SizedBox(
+              width: 48.2, // Set the width to the desired gap width
+              height: 0, // Set the height to 0 to remove the center icon
             ),
           ),
           borderRadius: BorderRadius.circular(20),
@@ -94,8 +83,8 @@ class _MainScreenState extends State<MainScreen>
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
             children: List.generate(
-              5,
-              (index) => _widgetOptions[index], 
+              4,
+              (index) => _widgetOptions[index],
             ),
           ),
           child: Stack(
@@ -107,14 +96,13 @@ class _MainScreenState extends State<MainScreen>
                 controller: tabController,
                 indicator: const UnderlineTabIndicator(
                     borderSide: BorderSide(
-                      color: Colors.white, 
+                      color: Colors.white,
                       width: 4,
                     ),
                     insets: EdgeInsets.fromLTRB(16, 0, 16, 8)),
                 tabs: [
                   _buildTabIcon(Icons.person_sharp),
                   _buildTabIcon(Icons.calendar_month_sharp),
-                  _buildTabIcon(Icons.add),
                   _buildTabIcon(Icons.location_on_sharp),
                   _buildTabIcon(Icons.home_sharp),
                 ],
@@ -131,7 +119,10 @@ class _MainScreenState extends State<MainScreen>
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  child: const Icon(Icons.camera_alt_sharp,size: 37,),
+                  child: const Icon(
+                    Icons.camera_alt_sharp,
+                    size: 37,
+                  ),
                 ),
               )
             ],
@@ -143,13 +134,13 @@ class _MainScreenState extends State<MainScreen>
 
   Widget _buildTabIcon(IconData icon) {
     return SizedBox(
-      height:55,
+      height: 55,
       width: 48.2,
       child: Center(
         child: Icon(
           icon,
           color: Colors.white,
-           size: 30,
+          size: 30,
         ),
       ),
     );

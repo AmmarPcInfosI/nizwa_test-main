@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nizwa_test/models/all_places.dart';
 import 'package:nizwa_test/screens/notifications.dart';
 
 class BookingScreen extends StatefulWidget {
@@ -12,14 +13,32 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  int selectedIndex = -1;
+  int selectedIndex = 2;
+  
   List<String> events = [
-    'ثقافي',
-    'ترفيهي',
     'تراثي',
+    'ترفيهي',
+    'ثقافي',
+  ];
+  List<List<PlacesModel>> eventLists = [
+    [
+      PlacesModel(Name: 'التراثي الأول', Media: 'lib/assets/bg.jpeg'),
+      PlacesModel(Name: 'التراثي الثاني', Media: 'lib/assets/bg.jpeg'),
+    ],
+    [
+      PlacesModel(Name: 'الترفيهي الأول', Media: 'lib/assets/bg.jpeg'),
+      PlacesModel(Name: 'الترفيهي الثاني', Media: 'lib/assets/bg.jpeg'),
+    ],
+    [
+      PlacesModel(Name: 'الثقافي الأول', Media: 'lib/assets/bg.jpeg'),
+      PlacesModel(Name: 'الثقافي الثاني', Media: 'lib/assets/bg.jpeg'),
+    ],
   ];
   @override
   Widget build(BuildContext context) {
+    List<PlacesModel> currentEventList = selectedIndex >= 0 && selectedIndex < eventLists.length
+        ? eventLists[selectedIndex]
+        : [];
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -51,6 +70,7 @@ class _BookingScreenState extends State<BookingScreen> {
         margin: EdgeInsets.symmetric(
             horizontal: MediaQuery.sizeOf(context).width * 13 / 390),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               width: MediaQuery.sizeOf(context).width,
@@ -120,7 +140,7 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
-              height: MediaQuery.of(context).size.height * 0.09,
+              height: MediaQuery.of(context).size.height * 0.055,
               width: MediaQuery.of(context).size.width * 243 / 390,
               alignment: Alignment.center,
               child: ListView.separated(
@@ -144,14 +164,20 @@ class _BookingScreenState extends State<BookingScreen> {
                           textAlign: TextAlign.center,
                           style: isSelected
                               ? GoogleFonts.notoSansArabic(
-                                  color: const Color(0xFF060606),
-                                  decoration: TextDecoration.underline,
-                                  decorationThickness: 2,
-                                  decorationColor: Color(0xFF89875B),
-                                  decorationStyle: TextDecorationStyle.solid,
+                                  shadows: [
+                                    const Shadow(
+                                        color: Colors.black,
+                                        offset: Offset(0, -5))
+                                  ],
+                                  color: Colors.transparent,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
-                                  height: 1)
+                                  height: 1,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: const Color(0xB289875B),
+                                  decorationThickness: 2,
+                                  decorationStyle: TextDecorationStyle.solid,
+                                )
                               : GoogleFonts.notoSansArabic(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
@@ -161,7 +187,86 @@ class _BookingScreenState extends State<BookingScreen> {
                   );
                 },
               ),
-            )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'عرض الكل',
+                      textAlign: TextAlign.right,
+                      style: GoogleFonts.notoSansArabic(
+                        color: Color(0xB289875B),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1,
+                      ),
+                    )),
+              ],
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 365 / 390,
+              height: MediaQuery.of(context).size.height * 330 / 844,
+              child: ListView.builder(
+                itemCount: currentEventList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width * 365 / 390,
+                    height: MediaQuery.of(context).size.height * 193 / 844,
+                    margin: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(currentEventList[index].Media!),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      height: MediaQuery.sizeOf(context).height,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          begin: Alignment(-0.01, 1.00),
+                          end: Alignment(0.01, -1),
+                          colors: [Color(0xFF89875B), Color(0x0089875B)],
+                        ),
+                      ),
+                      child: Container(margin: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*3/390),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                                onPressed: () async {
+                                  // SharedPreferences prefs =
+                                  //     await SharedPreferences.getInstance();
+                                  // String data = jsonEncode(places[index]);
+                                  // prefs.setString(places[index].Name!, data);
+                                },
+                                icon: const Icon(
+                                  Icons.favorite_border_outlined,
+                                  size: 30,
+                                  color: Colors.white,
+                                )),
+                            Text(
+                              currentEventList[index].Name!,
+                              textAlign: TextAlign.right,
+                              style: GoogleFonts.notoSansArabic(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                                height: 0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
