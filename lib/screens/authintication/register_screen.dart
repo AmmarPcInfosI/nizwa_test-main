@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nizwa_test/screens/home_screen.dart';
+import 'package:csc_picker/csc_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,6 +14,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  String countryValue = "";
+  String phoneValue = "";
   bool isEmailValid(String email) {
     final RegExp emailRegex = RegExp(
       r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$',
@@ -33,8 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController nationalityController = TextEditingController();
-  TextEditingController phoneNumController = TextEditingController();
+
   bool _passwordVisible = false;
 
   @override
@@ -53,8 +56,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "userName": nameController.text.toString(),
       "userEmail": emailController.text.toString(),
       "userPassword": _passwordController.text.toString(),
-      "userPhone": phoneNumController.text.toString(),
-      "userNationality": nationalityController.text.toString(),
+      "userPhone": phoneValue,
+      "userNationality": countryValue,
     }).then((value) {
       print("added");
     }).catchError((e) {
@@ -70,8 +73,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: password,
       )
           .then((value) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -84,6 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,125 +196,127 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontSize: 16,
                         ),
                       )),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 18 / 844,
+                  ),
                   Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.sizeOf(context).height * 18 / 844),
-                      width: MediaQuery.sizeOf(context).width * 332 / 390,
-                      height: MediaQuery.sizeOf(context).height * 46 / 844,
-                      child: TextFormField(
-                        controller: phoneNumController,
-                        enableInteractiveSelection: false,
-                        autofocus: false,
-                        textAlign: TextAlign.right,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          hintText: 'رقم الهاتف',
-                          alignLabelWithHint: false,
-                          hintStyle: GoogleFonts.notoSansArabic(
-                            color: const Color(0xFF89875B),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            height: 1,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                          filled: true,
-                          fillColor: const Color(0xFFD9D9D9),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        style: const TextStyle(
-                          color: Color(0xFF89875B),
+                    width: MediaQuery.sizeOf(context).width * 332 / 390,
+                    height: MediaQuery.sizeOf(context).height * 75 / 844,
+                    child: IntlPhoneField(
+                      showCountryFlag: false,
+                      focusNode: focusNode,
+                      dropdownDecoration: BoxDecoration(),
+                      decoration: InputDecoration(
+                        hintText: 'رقم الهاتف',
+                        alignLabelWithHint: false,
+                        hintStyle: GoogleFonts.notoSansArabic(
+                          color: const Color(0xFF89875B),
+                          fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          fontSize: 16,
+                          height: 1,
                         ),
-                      )),
-                  Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.sizeOf(context).height * 18 / 844),
-                      width: MediaQuery.sizeOf(context).width * 332 / 390,
-                      height: MediaQuery.sizeOf(context).height * 46 / 844,
-                      child: TextFormField(
-                        controller: nationalityController,
-                        enableInteractiveSelection: false,
-                        autofocus: false,
-                        textAlign: TextAlign.right,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          hintText: 'الجنسية',
-                          alignLabelWithHint: false,
-                          hintStyle: GoogleFonts.notoSansArabic(
-                            color: const Color(0xFF89875B),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            height: 1,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                          filled: true,
-                          fillColor: const Color(0xFFD9D9D9),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        style: const TextStyle(
-                          color: Color(0xFF89875B),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      )),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.sizeOf(context).height * 18 / 844),
-                        width: MediaQuery.sizeOf(context).width * 332 / 390,
-                        height: MediaQuery.sizeOf(context).height * 46 / 844,
-                        child: TextFormField(
-                          enableInteractiveSelection: false,
-                          autofocus: false,
-                          textAlign: TextAlign.right,
-                          controller: _passwordController,
-                          obscureText: !_passwordVisible,
-                          decoration: InputDecoration(
-                            alignLabelWithHint: false,
-                            hintStyle: GoogleFonts.notoSansArabic(
-                              color: const Color(0xFF89875B),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              height: 1,
-                            ),
-                            contentPadding: const EdgeInsets.all(10),
-                            filled: true,
-                            fillColor: const Color(0xFFD9D9D9),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            hintText: 'كلمة المرور',
-                            prefixIcon: IconButton(
-                              icon: Icon(
-                                _passwordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _passwordVisible = !_passwordVisible;
-                                });
-                              },
-                            ),
-                          ),
-                          style: const TextStyle(
-                            color: Color(0xFF89875B),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                          keyboardType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.done,
+                        contentPadding: const EdgeInsets.all(10),
+                        filled: true,
+                        fillColor: const Color(0xFFD9D9D9),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                    ],
+                      languageCode: "ar",
+
+                      initialCountryCode: 'OM',
+                      onChanged: (phone) {
+                        setState(() {
+                          phoneValue = phone.completeNumber;
+                        });
+                      }, 
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 332 / 390,
+                    // height: MediaQuery.of(context).size.height * 46 / 844,
+                    child: CSCPicker(
+                      showCities: false,
+                      flagState: CountryFlag.DISABLE,
+                      countrySearchPlaceholder: "الجنسية",
+                      countryDropdownLabel: "الجنسية",
+                      defaultCountry: CscCountry.Oman,
+                      showStates: false,
+                      dropdownDecoration: BoxDecoration(
+                        color: const Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      disabledDropdownDecoration: BoxDecoration(
+                        color: const Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      selectedItemStyle: TextStyle(
+                          color: const Color(0xFF89875B),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          height: 1),
+                      dropdownDialogRadius: 20,
+                      dropdownItemStyle: TextStyle(
+                        color: const Color(0xFF89875B),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                      onStateChanged: (value) {},
+
+                      ///triggers once city selected in dropdown
+                      onCityChanged: (value) {},
+                      onCountryChanged: (value) {
+                        setState(() {
+                          countryValue = value;
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.sizeOf(context).width * 332 / 390,
+                    height: MediaQuery.sizeOf(context).height * 46 / 844,
+                    child: TextFormField(
+                      enableInteractiveSelection: false,
+                      autofocus: false,
+                      textAlign: TextAlign.right,
+                      controller: _passwordController,
+                      obscureText: !_passwordVisible,
+                      decoration: InputDecoration(
+                        alignLabelWithHint: false,
+                        hintStyle: GoogleFonts.notoSansArabic(
+                          color: const Color(0xFF89875B),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          height: 1,
+                        ),
+                        contentPadding: const EdgeInsets.all(10),
+                        filled: true,
+                        fillColor: const Color(0xFFD9D9D9),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        hintText: 'كلمة المرور',
+                        prefixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                        ),
+                      ),
+                      style: const TextStyle(
+                        color: Color(0xFF89875B),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                      keyboardType: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
+                    ),
                   ),
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * 37 / 844,
@@ -319,9 +325,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       String fullName = nameController.text;
                       String email = emailController.text;
-                      String nationality = nationalityController.text;
-                      String phoneNumber = phoneNumController.text;
+                      String nationality = countryValue;
+                      String phoneNumber = phoneValue;
                       String password = _passwordController.text;
+                      
 
                       if (fullName.isEmpty ||
                           email.isEmpty ||
@@ -429,7 +436,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-
-
-  
-
