@@ -205,15 +205,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: IntlPhoneField(
                       showCountryFlag: false,
                       focusNode: focusNode,
+                       style: GoogleFonts.notoSansArabic(
+                          color: const Color(0xFF89875B),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5,
+                        ),
+                      invalidNumberMessage: "رقم الهاتف غير صالح",
+                      searchText: "بحث رمز الدولة",
                       dropdownDecoration: BoxDecoration(),
                       decoration: InputDecoration(
                         hintText: 'رقم الهاتف',
                         alignLabelWithHint: false,
                         hintStyle: GoogleFonts.notoSansArabic(
                           color: const Color(0xFF89875B),
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          height: 1,
+                          height:4.9,
                         ),
                         contentPadding: const EdgeInsets.all(10),
                         filled: true,
@@ -223,13 +231,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       languageCode: "ar",
-
                       initialCountryCode: 'OM',
                       onChanged: (phone) {
                         setState(() {
                           phoneValue = phone.completeNumber;
                         });
-                      }, 
+                      },
                     ),
                   ),
                   Container(
@@ -328,7 +335,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       String nationality = countryValue;
                       String phoneNumber = phoneValue;
                       String password = _passwordController.text;
-                      
 
                       if (fullName.isEmpty ||
                           email.isEmpty ||

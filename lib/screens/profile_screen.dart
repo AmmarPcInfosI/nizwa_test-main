@@ -1,7 +1,9 @@
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nizwa_test/screens/notifications.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,201 +19,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController nationalityController = TextEditingController();
 
   // Replace this with your list of nationalities.
-  final List<String> allNationalities = [
-    'أفغاني',
-    'ألباني',
-    'جزائري',
-    'ألماني',
-    'أندوري',
-    'أنغولي',
-    'أنتيغوان وبربودا',
-    'أرجنتيني',
-    'أرمني',
-    'أسترالي',
-    'نمساوي',
-    'أذربيجاني',
-    'باهامي',
-    'بحريني',
-    'بنغالي',
-    'باربادوسي',
-    'بيلاروسي',
-    'بلجيكي',
-    'بليزي',
-    'بنيني',
-    'بوتاني',
-    'بوليفي',
-    'البوسنة والهرسك',
-    'بوتسواني',
-    'برازيلي',
-    'بروناي',
-    'بلغاري',
-    'بوركيني فاسو',
-    'بوروندي',
-    'كمبودي',
-    'كاميروني',
-    'كندي',
-    'الرأس الأخضر',
-    'تشادي',
-    'تشيلي',
-    'صيني',
-    'كولومبي',
-    'جزر القمر',
-    'الكونغو',
-    'كوستاريكي',
-    'كرواتي',
-    'كوبي',
-    'قبرصي',
-    'تشيكي',
-    'دانماركي',
-    'جيبوتي',
-    'دومينيكي',
-    'جمهورية الدومينيكان',
-    'تيموري',
-    'إكوادوري',
-    'مصري',
-    'سلفادوري',
-    'غيني',
-    'إستوني',
-    'إثيوبي',
-    'فيجي',
-    'فنلندي',
-    'فرنسي',
-    'غابوني',
-    'غامبي',
-    'جورجي',
-    'ألماني',
-    'غاني',
-    'يوناني',
-    'جرينادي',
-    'جواتيمالي',
-    'غيني',
-    'غينيا بيساوي',
-    'غوياني',
-    'هندوراسي',
-    'هونغ كونغ',
-    'مجري',
-    'أيسلندي',
-    'هندي',
-    'إندونيسي',
-    'إيراني',
-    'عراقي',
-    'إيرلندي',
-    'إسرائيلي',
-    'إيطالي',
-    'إيفواري',
-    'جامايكي',
-    'ياباني',
-    'أردني',
-    'كازاخستاني',
-    'كيني',
-    'كيريباتي',
-    'كويتي',
-    'قيرغيزي',
-    'لاوسي',
-    'لاتفي',
-    'لبناني',
-    'ليسوتي',
-    'ليبيري',
-    'ليبي',
-    'ليختنشتايني',
-    'ليتواني',
-    'لوكسمبورجي',
-    'مكاوي',
-    'مقدوني',
-    'مدغشقري',
-    'مالاوي',
-    'ماليزي',
-    'مالديفي',
-    'مالي',
-    'مالطي',
-    'جزر مارشال',
-    'موريتاني',
-    'موريشيوسي',
-    'مكسيكي',
-    'ميكرونيزي',
-    'مولدوفي',
-    'موناكو',
-    'منغولي',
-    'مونتيغريني',
-    'المغربي',
-    'موزمبيقي',
-    'بورمي',
-    'ناميبي',
-    'ناورو',
-    'نيبالي',
-    'هولندي',
-    'نيوزيلندي',
-    'نيكاراغواني',
-    'نيجيري',
-    'كوري شمالي',
-    'نرويجي',
-    'عماني',
-    'باكستاني',
-    'بالاوي',
-    'فلسطيني',
-    'بنمي',
-    'بابوا غينيا الجديدة',
-    'باراغواي',
-    'بيرو',
-    'فلبيني',
-    'بولندي',
-    'برتغالي',
-    'قطري',
-    'روماني',
-    'روسي',
-    'رواندي',
-    'سان كريستوفر ونيفيس',
-    'سانت لوسيان',
-    'سانت فينسنت وجزر غرينادين',
-    'ساموي',
-    'سان مارينو',
-    'ساو تومي وبرينسيبي',
-    'سعودي',
-    'سنغالي',
-    'صربي',
-    'سيشيلي',
-    'سيراليوني',
-    'سنغافوري',
-    'سلوفاكي',
-    'سلوفيني',
-    'جزر سليمان',
-    'صومالي',
-    'جنوب أفريقي',
-    'كوريا الجنوبية',
-    'جنوب السودان',
-    'إسباني',
-    'سريلانكي',
-    'السوداني',
-    'سوري',
-    'سوازيلندي',
-    'سويدي',
-    'سويسري',
-    'سورينامي',
-    'سواهيلي',
-    'طاجيكي',
-    'تنزاني',
-    'تايلاندي',
-    'توغوي',
-    'تونغاني',
-    'ترينيدادي',
-    'تونسي',
-    'تركي',
-    'تركمانستاني',
-    'توفالوي',
-    'أوغندي',
-    'أوكراني',
-    'إماراتي',
-    'بريطاني',
-    'أمريكي',
-    'أوروغواي',
-    'أوزبكستاني',
-    'فانواتو',
-    'فنزويلي',
-    'فيتنامي',
-    'اليمني',
-    'زامبي',
-    'زمبابوي',
-  ];
+  
+  FocusNode focusNode = FocusNode();
+  String phoneValue = "";
+  String countryValue = "";
 
   @override
   Widget build(BuildContext context) {
@@ -386,37 +197,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     textAlign: TextAlign.right,
                   ),
                   Container(
-                      margin: EdgeInsets.only(
+                    margin: EdgeInsets.only(
                           top: MediaQuery.sizeOf(context).height * 6 / 844),
-                      width: MediaQuery.sizeOf(context).width * 340 / 390,
-                      height: MediaQuery.sizeOf(context).height * 44 / 844,
-                      child: TextFormField(
-                        controller: phoneController,
-                        enableInteractiveSelection: false,
-                        autofocus: false,
-                        textAlign: TextAlign.right,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          alignLabelWithHint: false,
-                          hintStyle: GoogleFonts.notoSansArabic(
-                            color: const Color(0xFF89875B),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            height: 1,
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                          filled: true,
-                          fillColor: const Color(0x00C4C4C4),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        style: const TextStyle(
-                          color: Color(0xFF89875B),
+                    
+                    width: MediaQuery.sizeOf(context).width * 340 / 390,
+                    height: MediaQuery.sizeOf(context).height * 75 / 844,
+                    child: IntlPhoneField(
+                      showCountryFlag: false,
+                      focusNode: focusNode,
+                      style: GoogleFonts.notoSansArabic(
+                        color: const Color(0xFF89875B),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        height: 1.8,
+                      ),
+                      invalidNumberMessage: "رقم الهاتف غير صالح",
+                      searchText: "بحث رمز الدولة",
+                      dropdownDecoration: BoxDecoration(),
+                      decoration: InputDecoration(
+                        alignLabelWithHint: false,
+                        hintStyle: GoogleFonts.notoSansArabic(
+                          color: const Color(0xFF89875B),
+                          fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          fontSize: 16,
+                          height: 1,
                         ),
-                      )),
+                        contentPadding: const EdgeInsets.all(10),
+                        filled: true,
+                        fillColor: const Color(0x00C4C4C4),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      languageCode: "ar",
+                      initialCountryCode: 'OM',
+                      onChanged: (phone) {
+                        setState(() {
+                          phoneValue = phone.completeNumber;
+                        });
+                      },
+                    ),
+                  ),
+                  
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 21 / 844,
                   ),
@@ -430,66 +252,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     textAlign: TextAlign.right,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 6 / 844),
-                    width: MediaQuery.of(context).size.width * 340 / 390,
-                    height: MediaQuery.of(context).size.height * 44 / 844,
-                    child: TypeAheadFormField(
-                      textFieldConfiguration: TextFieldConfiguration(
-                          controller: nationalityController,
-                          decoration: InputDecoration(
-                            alignLabelWithHint: false,
-                            hintStyle: const TextStyle(
-                              color: Color(0xFF89875B),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              height: 1,
-                            ),
-                            contentPadding: const EdgeInsets.all(10),
-                            filled: true,
-                            fillColor: const Color(0x00C4C4C4),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          style: const TextStyle(
-                            color: Color(0xFF89875B),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.right),
-                      suggestionsCallback: (pattern) {
-                        return allNationalities.where((nationality) {
-                          return nationality
-                              .toLowerCase()
-                              .contains(pattern.toLowerCase());
+                 
+                  Container(width: MediaQuery.of(context).size.width * 340 / 390,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black, // Set the border color here
+                        // Set the border width here
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      
+                    ),
+                    child: CSCPicker(
+                      showCities: false,
+                      flagState: CountryFlag.DISABLE,
+                      countrySearchPlaceholder: "الجنسية",
+                      countryDropdownLabel: "الجنسية",
+                      defaultCountry: CscCountry.Oman,
+                      showStates: false,
+                      dropdownDecoration: BoxDecoration(
+                        color: const Color(0x00C4C4C4),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      disabledDropdownDecoration: BoxDecoration(
+                        color: const Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      selectedItemStyle: TextStyle(
+                          color: const Color(0xFF89875B),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          height: 1),
+                      dropdownDialogRadius: 20,
+                      dropdownItemStyle: TextStyle(
+                        color: const Color(0xFF89875B),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                      onStateChanged: (value) {},
+
+                      ///triggers once city selected in dropdown
+                      onCityChanged: (value) {},
+                      onCountryChanged: (value) {
+                        setState(() {
+                          countryValue = value;
                         });
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(
-                          title: Text(
-                            suggestion,
-                            textAlign: TextAlign.right,
-                          ),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        nationalityController.text = suggestion;
-                      },
-                      noItemsFoundBuilder: (context) {
-                       
-                        return const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child:  Text(
-                            'لا تتوفر هذه الجنسية',
-                            style: TextStyle(
-                              color: Colors.black,
-                              
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        );
                       },
                     ),
                   ),
